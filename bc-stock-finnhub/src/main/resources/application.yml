@@ -1,0 +1,18 @@
+server:
+  port: 8091
+
+api:
+  jph:
+    domain: "finnhub.io"
+    basePath: "/api/v1"
+    endpoints:
+      quote: "/quote"
+      profile2: "/stock/profile2"
+      symbol: "/stock/symbol"
+    apiKey: "cna1iqpr01qjv5ip3cs0cna1iqpr01qjv5ip3csg"
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
