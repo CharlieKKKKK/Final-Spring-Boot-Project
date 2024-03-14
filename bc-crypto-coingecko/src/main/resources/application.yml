@@ -9,3 +9,9 @@ api:
       list: "/api/v3/coins/list"
     path:
       apiKey: "CG-QaWUD2CVqQidGstHWcFgYg9e"
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379

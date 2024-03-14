@@ -18,18 +18,18 @@ import com.vtxlab.bootcamp.bccryptocoingecko.service.CoingeckoService;
 @SpringBootTest
 public class CryptoServiceImplTest {
 
-  @Autowired
-  private CoingeckoService coingeckoService;
+  // @Autowired
+  // private CoingeckoService coingeckoService;
 
-  @MockBean
-  private RestTemplate restTemplate;
+  // @MockBean
+  // private RestTemplate restTemplate;
 
-  @Test
-  void testGetAllCoins() {
-    // List<Coin> testCurrency = coingeckoService.getAllCoins(null)
-    // String coinsListUrl = CryptoUrl.coinsListUrl(Scheme.HTTPS, domain,
-    // coinsListEndpoint, apiKey);
+  // @Test
+  // void testGetAllCoins() {
+  // // List<Coin> testCurrency = coingeckoService.getAllCoins(null)
+  // // String coinsListUrl = CryptoUrl.coinsListUrl(Scheme.HTTPS, domain,
+  // // coinsListEndpoint, apiKey);
 
-  }
+  // }
 
 }

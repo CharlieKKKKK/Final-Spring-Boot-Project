@@ -8,14 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Getter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@Builder
 public class Coin {
 
   private String id;
@@ -51,13 +52,13 @@ public class Coin {
   @JsonProperty(value = "max_supply")
   private double maxSupply;
   private double ath;
-  @JsonProperty(value = "athChangePercentage")
-  private double ath_change_percentage;
-  @JsonProperty(value = "athDate")
-  private LocalDateTime ath_date;
+  @JsonProperty(value = "ath_change_percentage")
+  private double athChangePercentage;
+  @JsonProperty(value = "ath_date")
+  private LocalDateTime athDate;
   private double atl;
-  @JsonProperty(value = "atlChangePercentage")
-  private double atl_change_percentage;
+  @JsonProperty(value = "atl_change_percentage")
+  private double atlChangePercentage;
   @JsonProperty(value = "atl_date")
   private LocalDateTime atlDate;
   private Roi roi;

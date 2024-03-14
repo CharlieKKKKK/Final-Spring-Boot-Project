@@ -1,9 +1,11 @@
-package com.vtxlab.bootcamp.bcstockfinnhub.infra;
+package com.vtxlab.bootcamp.bccryptocoingecko.infra;
 
 import java.util.Objects;
+
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
