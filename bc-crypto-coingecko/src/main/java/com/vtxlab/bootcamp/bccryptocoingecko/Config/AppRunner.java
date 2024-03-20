@@ -19,18 +19,17 @@ public class AppRunner implements CommandLineRunner {
 
     try {
       String ids = "ethereum";
-      for (Currency crrencyEnum : Currency.values()) {
-      coingeckoService.saveCoinToRedis(crrencyEnum, ids);
-      }
+      Currency crrencyUSD = Currency.USD;
+      coingeckoService.saveCoinToRedis(crrencyUSD, ids);
+
     } catch (JsonProcessingException e) {
 
     }
 
     try {
       String ids = "bitcoin";
-      for (Currency crrencyEnum : Currency.values()) {
-        coingeckoService.saveCoinToRedis(crrencyEnum, ids);
-      }
+      Currency crrencyUSD = Currency.USD;
+      coingeckoService.saveCoinToRedis(crrencyUSD, ids);
     } catch (JsonProcessingException e) {
 
     }

@@ -11,8 +11,7 @@ public class RedisHelper {
 
   private RedisTemplate<String, String> redisTemplate;
 
-  private ObjectMapper objectMapper; 
-
+  private ObjectMapper objectMapper;
 
   public RedisHelper(RedisTemplate<String, String> redisTemplate,
       ObjectMapper objectMapper) {
@@ -41,8 +40,20 @@ public class RedisHelper {
   }
 
   public <T> T get(String key, Class<T> clazz) throws JsonProcessingException {
-    String value = this.redisTemplate.opsForValue().get(key);
-    return objectMapper.readValue(value, clazz);
+    // System.out.println("cheak RedisHelper  get()   111111111");
+    // Object value = this.redisTemplate.opsForValue().get(key);
+    // System.out.println("cheak RedisHelper get() >>> Object value 222222222");
+    // System.out.println(value);
+    // return objectMapper.readValue((String) value, clazz);
+    Object value = this.redisTemplate.opsForValue().get(key);
+    if (value != null) {
+        if (value instanceof String) {
+            return objectMapper.readValue((String) value, clazz);
+        } else {
+            // Handle non-string values here
+        }
+    }
+    return null;
   }
 
 }

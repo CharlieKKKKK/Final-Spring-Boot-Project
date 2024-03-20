@@ -71,6 +71,7 @@ public class FinnhubJPH implements FinnhubService {
       if (quote == null) {
         throw new FinnhubNotAvailableException(Syscode.FINNHUB_NOT_AVAILABLE_EXCEPTION);
       }
+      System.out.println("Call Third Party API _ Quote");
       return quote;
     }
     return redisHelper.get(QuoteName, Quote.class);
@@ -79,6 +80,17 @@ public class FinnhubJPH implements FinnhubService {
   @Override
   public Profile getRedisProfile2(String symbol) throws JsonProcessingException {
     String ProfileName = "stock:finnhub:Profile2:" + symbol.toUpperCase();
+    Profile CheckData = redisHelper.get(ProfileName, Profile.class);
+    if (CheckData == null) {
+      String url = FinnhubUrl.url(Scheme.HTTPS, domain, basePath, profile2Endpoint, symbol, apiKey);
+      Profile profile = restTemplate.getForObject(url, Profile.class);
+      if (profile == null) {
+        throw new FinnhubNotAvailableException(Syscode.FINNHUB_NOT_AVAILABLE_EXCEPTION);
+      }
+      System.out.println("Call Third Party API _ Profile2");
+      return profile;
+    }
+
     return redisHelper.get(ProfileName, Profile.class);
   }
 

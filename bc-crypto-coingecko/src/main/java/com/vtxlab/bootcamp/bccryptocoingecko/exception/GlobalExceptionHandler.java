@@ -12,6 +12,17 @@ import com.vtxlab.bootcamp.bccryptocoingecko.infra.Syscode;
 @RestControllerAdvice // Bean: @ContollerAdvice + @ResponseBody
 public class GlobalExceptionHandler {
 
+  @ExceptionHandler(CoingeckoNotAvailableException.class)
+  @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
+  public ApiResponse<Void> FinnhubNotAvailableExceptionHandler(
+      CoingeckoNotAvailableException e) {
+    return ApiResponse.<Void>builder() //
+        .code(Syscode.COINGECKO_NOT_AVAILABLE_EXCEPTION.getCode()) //
+        .message(Syscode.COINGECKO_NOT_AVAILABLE_EXCEPTION.getMessage()) //
+        .data(null) //
+        .build();
+  }
+
   @ExceptionHandler(InvalidCurrencyInputException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   public ApiResponse<Void> InvalidOperaExceptionHandler(InvalidCurrencyInputException e) {
@@ -38,7 +49,6 @@ public class GlobalExceptionHandler {
         .message(Syscode.JPH_NOT_AVAILABLE.getMessage()) //
         .build();
   }
-
 
   @ExceptionHandler(NullPointerException.class)
   @ResponseStatus(value = HttpStatus.REQUEST_TIMEOUT)

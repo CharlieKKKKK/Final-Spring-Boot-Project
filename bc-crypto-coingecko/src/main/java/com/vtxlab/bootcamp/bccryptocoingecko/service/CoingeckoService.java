@@ -16,4 +16,6 @@ public interface CoingeckoService {
   List<Coin> getCoins(Currency currency, String ids);
 
   void saveCoinToRedis(Currency currency, String ids) throws JsonProcessingException;
+
+  List<Coin> getCoinToRedis(Currency currency, String ids) throws JsonProcessingException;
 }

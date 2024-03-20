@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vtxlab.bootcamp.bccryptocoingecko.controller.Operation;
 import com.vtxlab.bootcamp.bccryptocoingecko.exception.InvalidIdsInputException;
 import com.vtxlab.bootcamp.bccryptocoingecko.infra.ApiResponse;
@@ -17,7 +18,7 @@ import com.vtxlab.bootcamp.bccryptocoingecko.model.dto.jph.Coin;
 import com.vtxlab.bootcamp.bccryptocoingecko.service.CoingeckoService;
 
 @RestController
-@RequestMapping(value = "/crypto/coingecko/api/v1")
+@RequestMapping(value = "/crypto/coingecko/api/v3")
 public class Controller implements Operation {
 
   @Autowired
@@ -49,16 +50,27 @@ public class Controller implements Operation {
       List<Coin> Coins = new ArrayList<>();
       List<CheckCoinsList> getMarket = coingeckoService.getCoinsList();
       for (String coinId : splitAllCoins) {
-        if (!(CheckCoinsList.isValidCoin(getMarket, coinId))){
+        if (!(CheckCoinsList.isValidCoin(getMarket, coinId))) {
           throw new InvalidIdsInputException();
         }
         Coins.addAll(coingeckoService.getCoins(currencyEnum, coinId));
       }
-        return ApiResponse.<List<Coin>>builder()//
-            .code(Syscode.OK.getCode())//
-            .message(Syscode.OK.getMessage())//
-            .data(Coins)//
-            .build();
+      return ApiResponse.<List<Coin>>builder()//
+          .code(Syscode.OK.getCode())//
+          .message(Syscode.OK.getMessage())//
+          .data(Coins)//
+          .build();
     }
+  }
+
+  @Override
+  public ApiResponse<List<Coin>> getCoinToRedis(String currency, String ids) throws JsonProcessingException {
+    Currency currencyEnum = Currency.toCurrency(currency);
+    List<Coin> getCoinToRedis = coingeckoService.getCoinToRedis(currencyEnum, ids);
+    return ApiResponse.<List<Coin>>builder()//
+        .code(Syscode.OK.getCode())//
+        .message(Syscode.OK.getMessage())//
+        .data(getCoinToRedis)// 
+        .build();
   }
 }

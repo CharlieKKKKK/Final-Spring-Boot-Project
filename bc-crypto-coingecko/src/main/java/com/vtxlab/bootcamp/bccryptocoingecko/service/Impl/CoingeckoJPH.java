@@ -1,5 +1,6 @@
 package com.vtxlab.bootcamp.bccryptocoingecko.service.Impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +14,10 @@ import org.springframework.web.client.RestTemplate;
 import com.vtxlab.bootcamp.bccryptocoingecko.infra.Currency;
 import com.vtxlab.bootcamp.bccryptocoingecko.infra.RedisHelper;
 import com.vtxlab.bootcamp.bccryptocoingecko.infra.Scheme;
+import com.vtxlab.bootcamp.bccryptocoingecko.infra.Syscode;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.vtxlab.bootcamp.bccryptocoingecko.exception.CoingeckoNotAvailableException;
+import com.vtxlab.bootcamp.bccryptocoingecko.exception.InvalidIdsInputException;
 import com.vtxlab.bootcamp.bccryptocoingecko.infra.CryptoUrl;
 import com.vtxlab.bootcamp.bccryptocoingecko.model.dto.jph.CheckCoinsList;
 import com.vtxlab.bootcamp.bccryptocoingecko.model.dto.jph.Coin;
@@ -61,13 +65,11 @@ public class CoingeckoJPH implements CoingeckoService {
 
   @Override
   public List<Coin> getCoins(Currency currency, String ids) {
-    // System.out.println("geeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeetCoins");
     HashSet<String> tempCoins = new HashSet<>();
     tempCoins.addAll(Arrays.asList(ids));
     List<Coin> marketDTO = this.getAllCoins(currency).stream()//
         .filter(e -> tempCoins.contains(e.getId()))//
         .collect(Collectors.toList());
-    // System.out.println("getCoinnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnns");
     return marketDTO;
   }
 
@@ -76,10 +78,26 @@ public class CoingeckoJPH implements CoingeckoService {
     String coinKey = "crytpo:coingecko:coins-markets:" + currency + ":" + ids;
     System.out.println(coinKey);
     List<Coin> ListOfCoinObject = this.getCoins(currency, ids);
-    System.out.println(ListOfCoinObject);
-    // System.out.println("saveCoooooooooooooooooooooooooooooin");
     redisHelper.set(coinKey, ListOfCoinObject);
-    System.out.println("saveCoin OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
+  }
+
+  @Override
+  public List<Coin> getCoinToRedis(Currency currency, String ids) throws JsonProcessingException {
+    String coinKey = "crytpo:coingecko:coins-markets:" + currency + ":" + ids;
+    List<Coin> Coins = new ArrayList<>();
+    Coin[] checkData = redisHelper.get(coinKey, Coin[].class);
+    // Coins.addAll(this.getCoins(currency, coinId));
+    if (checkData == null || checkData.length == 0) {
+      Coins = this.getCoins(currency, ids);
+      if (Coins == null) {
+        throw new CoingeckoNotAvailableException(Syscode.COINGECKO_NOT_AVAILABLE_EXCEPTION);
+      }
+      System.out.println("Call Third Party API _ coingecko");
+      return Coins;
+    }
+    // List<Coin> coins = Arrays.stream(checkData).collect(Collectors.toList());
+    Coins = Arrays.asList(checkData);
+    return Coins;
   }
 
 }

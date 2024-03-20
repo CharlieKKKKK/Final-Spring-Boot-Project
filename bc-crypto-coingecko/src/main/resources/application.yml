@@ -8,7 +8,7 @@ api:
       market: "/api/v3/coins/markets"
       list: "/api/v3/coins/list"
     path:
-      apiKey: "CG-QaWUD2CVqQidGstHWcFgYg9e"
+      apiKey: "CG-2iNrd82pQsgLnaaNbmB22VQc"
 
 spring:
   data:

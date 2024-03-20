@@ -13,7 +13,7 @@ import com.vtxlab.bootcamp.bcstockfinnhub.model.dto.jph.Quote;
 import com.vtxlab.bootcamp.bcstockfinnhub.service.FinnhubService;
 
 @RestController
-@RequestMapping(value = "/finnhub.io/api/v1")
+@RequestMapping(value = "/stock/finnhub.io/api/v1")
 public class Controller implements Operation {
 
   @Autowired

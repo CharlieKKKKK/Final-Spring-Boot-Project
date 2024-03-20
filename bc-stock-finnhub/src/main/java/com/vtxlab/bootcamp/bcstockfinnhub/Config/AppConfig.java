@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +43,22 @@ public class AppConfig {
   }
 
   @Bean
-  ObjectMapper objectMapper() {
+  ObjectMapper ObjectMapper() {
     return new ObjectMapper();
   }
-}
+
+    @Bean
+  RedisTemplate<String, Object> defaultRedisTemplate(
+      RedisConnectionFactory factory, ObjectMapper redisObjectMapper) {
+    RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+    redisTemplate.setConnectionFactory(factory);
+    redisTemplate.setKeySerializer(new StringRedisSerializer());
+    redisTemplate.setValueSerializer(
+        new GenericJackson2JsonRedisSerializer(redisObjectMapper));
+    redisTemplate.afterPropertiesSet();
+    return redisTemplate;
+  }
+
+  }
+
+

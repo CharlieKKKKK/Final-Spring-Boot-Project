@@ -1,0 +1,16 @@
+server:
+  port: 8092
+
+api:
+  bc_crypto_coingecko:
+    domain: localhost:8090/crypto/coingecko/api/v3
+    endpoints:
+      currency: usd
+      coinList: coinList
+      market: market
+  bc_stock_finnhub:
+    domain: localhost:8091/finnhub.io/api/v1
+    endpoint:
+      quote: quote
+      profile: profile2
+      stockList: stockList
